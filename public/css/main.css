@@ -1,0 +1,106 @@
+body{
+    text-align: center;
+}
+#error-container{
+    height:150px;
+    display: block;
+}
+.container{
+    margin:0 auto;
+    width:1000px;
+    bottom: 0;
+    position: absolute ;
+    margin:auto;
+    left: 0;
+    right: 0;
+}
+.msg{
+    text-align: left;
+    display: block;
+}
+#dvLogin{
+    margin:0 auto;
+    width:1000px;
+}
+#someOneIstexting.strangerWriting{
+    float: left;
+}
+.msg .msgSender{
+     min-height: 25px;
+    font-weight: bold;
+    text-align: right;
+    display: block;
+    width:180px;
+    float:left;
+    background-color: bisque;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 0px 0px 16px;
+}
+
+.msg .msgText{
+     min-height: 25px;
+    font-style: italic;
+    width: 780px;
+    display: block;
+    float: left;
+    clear: right;
+    background-color: wheat;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 0px 16px 16px 0px;
+}
+.msg .msgText div,
+.msg .msgMyText div
+{
+    display: inline-block;
+}
+.msg .msgMyText{
+    font-style: italic;
+     min-height: 25px;
+     text-align: right;
+    width: 780px;
+    display: block;
+    float: left;
+    clear: right;
+    background-color:greenyellow;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius:16px 0px 0px 16px;
+}
+.msg .msgMe
+{
+     min-height: 25px;
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    width:180px;
+    float:right;
+    background-color: aquamarine;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 0px 16px 16px 0px;
+}
+.mergeUp{
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+.mergeDown{
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.msg .infoText{
+    font-weight: bold;
+    text-align: center;
+    width: 980px;
+    display: block;
+    clear: right;
+    float: left;
+    background-color:#85ebef;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 16px 16px 16px;
+}
+#message{
+    width : 500px;
+}
