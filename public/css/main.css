@@ -132,12 +132,23 @@ body{
 .msg{
     display: block; 
 }
-#someOneIstexting.strangerWriting{
-   display: inline-block;
-    text-align: left;
+#someOneIswriting{
+    text-align: center;
 }
-#someOneIstexting.strangerWriting{
-    display: table-cell;
+.strangerWriting{
+   display: table-cell;
+   padding: 2px;
+   text-align: center;
+}
+.rightEnd{
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 0px 16px 16px 0px;
+}
+.leftEnd{
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 0px 0px 16px;
 }
 .msg .msgSender{
      min-height: 25px;

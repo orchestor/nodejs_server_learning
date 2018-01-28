@@ -63,13 +63,9 @@
 
         //document.getElementById('message-container').innerHTML = '<div><b>User Left : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
     });
-    socket.on('someUserWriting', function (_u) {
+    socket.on('usersOnWriting', function (_u) {
         //if (user !== _u)
-            addStrangerWritingInfo(_u);
-    })
-    socket.on('someUserDoneWriting', function (_u) {
-      //  if (user !== _u)
-            removeStrangerWritingInfo(_u);
+            updateStrangersWriting(_u);
     })
     function sendWritingInfo() {
         socket.emit('Writing', user);
@@ -163,30 +159,31 @@
         div.appendChild(userMsgSpan);
         $chatBox.append(div);
     }
-    function addStrangerWritingInfo(_user) {
+    function updateStrangersWriting(writingUserList) {
         //TODO : FİX THİS SHİT
         //Doesn't add second user info
-        var wlist = $someOneIsWriting.children();
-        if (wlist.length > 0) {
-            for (var i = 0; wlist.length; i++) {
-                if (wlist[i].id === _user) {
-                    return;
-                }
+        console.log(writingUserList);
+        $someOneIsWriting.empty();
+        var counter = 0;
+        for(var i = 0; i < writingUserList.length;i++){
+            var div = document.createElement('div')
+            {
+                if(writingUserList[i].name === user)continue;
+                div.id = writingUserList[i].name;
+                div.innerText = writingUserList[i].name + (counter>0?i < writingUserList.length+1?", ":" ":" ");
+                div.classList.add("strangerWriting");
+                if(counter === 0)
+                {div.classList.add("leftEnd");}
+                $someOneIsWriting.append(div);
+                counter++;
             }
         }
+        if($someOneIsWriting.children().length === 0)return;
         var div = document.createElement('div');
-        div.id = _user;
-        div.innerText = _user + " is writing...";
+        div.innerText = " is writing...";
         div.classList.add("strangerWriting");
+        div.classList.add("rightEnd");
         $someOneIsWriting.append(div);
-    }
-    function removeStrangerWritingInfo(_user) {
-        var wlist = $someOneIsWriting.children();
-        for (var i = 0; wlist.length; i++) {
-            if (wlist[i].id === _user) {
-                wlist[i].remove();
-            }
-        }
     }
     function emojifyText(string) {
         var result = "<div> " + string + " </div>";
