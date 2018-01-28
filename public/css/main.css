@@ -47,6 +47,7 @@
 }
 body{
     text-align: center;
+    font-size:larger;
 }
 #error-container{
     height:50px;
