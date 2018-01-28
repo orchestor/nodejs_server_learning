@@ -1,0 +1,194 @@
+
+@media screen and (max-width:340px){
+    #dvLogin{
+        width: 100% !important;
+        margin:unset auto !important;
+        padding: unset !important;
+    }
+}
+@media screen and  (max-width:1040px)
+{
+    .container {
+        width: 750px !important;
+        text-align: center!important;
+    }
+    #message {
+        width:400px !important;
+        
+    }
+    .msg{
+        margin: 0 auto !important;
+        width: 480px !important;
+        
+    }
+    .msg .infoText
+    {
+        width: 460px !important;
+        margin: 0 auto !important;
+    }
+    .msg .msgText,
+    .msg .msgMyText{
+        width :380px !important;
+    }
+    .msg .msgSender,
+    .msg .msgMe{
+        width: 100px !important;
+    }
+}
+@media screen and (max-width:750px){
+    .container {
+        width: 100% !important; 
+    }
+}
+
+@media screen and (max-height: 1000px)
+{
+    
+}
+body{
+    text-align: center;
+}
+#error-container{
+    height:50px;
+    display: block;
+    
+}
+#dvLogin{
+    width: 300px;
+    background-color: #b3ffff;
+    display: block;
+    text-align: center;
+    margin: auto auto;
+    margin-top: 125px;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 16px 16px 16px;
+}
+#dvLogin #name{
+    width: 225px;
+    height: 35px;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 16px 16px 16px;
+    margin: 5px;
+    margin-bottom: 25px;
+}
+.button{
+    background-color: #00b300;
+    border: 1px solid #ccffcc;
+    padding: 9px 9px;
+    border-radius: 16px 16px 16px 16px;
+    margin:15px;
+    color: whitesmoke;
+}
+.sendButton{
+    background-color: #00b300;
+    color: whitesmoke;
+    width:100px;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding: 9px 9px;
+    border-radius: 0px 16px 16px 0px;
+    margin: 5px;
+    margin-left: 0px;
+    margin-bottom: 15px;
+}
+#message{
+    width: 850px;
+    height: 35px;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 0px 0px 16px;
+    margin: 5px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+}
+
+.container{
+    margin:0 auto;
+    width:1000px;
+    bottom: 0;
+    position: absolute ;
+    margin:auto;
+    left: 0;
+    right: 0;
+}
+.msg{
+    display: block; 
+}
+#someOneIstexting.strangerWriting{
+   display: inline-block;
+    text-align: left;
+}
+#someOneIstexting.strangerWriting{
+    display: table-cell;
+}
+.msg .msgSender{
+     min-height: 25px;
+    font-weight: bold;
+    text-align: right;
+    display: table-cell;
+    width:180px;
+    background-color: bisque;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 0px 0px 16px;
+}
+.msg .msgMe
+{
+    min-height: 25px;
+    font-weight: bold;
+    text-align: left;
+    display: table-cell;
+    width:180px;
+
+    background-color: aquamarine;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 0px 16px 16px 0px;
+}
+.msg .msgText{
+    min-height: 25px;
+    font-style: italic;
+    width: 780px;
+    display: table-cell;
+    background-color: wheat;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 0px 16px 16px 0px;
+    text-align: left;
+}
+.msg .msgText div,
+.msg .msgMyText div
+{
+    display: inline-block;
+}
+.msg .msgMyText{
+    font-style: italic;
+    min-height: 25px;
+    text-align: right;
+    width: 780px;
+    display: table-cell;
+    width: 780px;
+    background-color:greenyellow;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius:16px 0px 0px 16px;
+}
+.msg .infoText{
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    background-color:#85ebef;
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 16px 16px 16px;
+}
+.mergeUp{
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+.mergeDown{
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}

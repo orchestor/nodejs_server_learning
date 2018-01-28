@@ -1,0 +1,17 @@
+.icon{
+	content:'';
+	background-size:cover;
+    width:24px;
+    height:24px;
+	display: inline-block;
+	margin-bottom: -5px;
+}
+.icon.icon-smile {
+	background-image: url("ikinoktaparantez.bmp");
+}
+.icon.icon-laugh {
+	background-image: url("ikinoktad.bmp");
+}
+.icon.icon-sad{
+	background-image: url("sadsad.bmp");
+}
