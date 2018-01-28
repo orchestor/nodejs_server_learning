@@ -73,6 +73,22 @@ body{
     margin: 5px;
     margin-bottom: 25px;
 }
+#dvLogin a,
+#dvLogin a:hover,
+#dvLogin a:visited
+{
+    color:white;
+    background-color:chocolate;
+    display: block;
+    border: 1px solid #ccc;
+    padding: 5px 9px;
+    border-radius: 16px 16px 16px 16px;
+    margin: 5px;
+    margin-bottom: 25px;
+    text-decoration: none;
+    text-decoration-color: white;
+}
+
 .button{
     background-color: #00b300;
     border: 1px solid #ccffcc;
