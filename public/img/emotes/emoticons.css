@@ -9,11 +9,11 @@
 	margin-left:5px;
 }
 .icon.icon-smile {
-	background-image: url("ikinoktaparantez.bmp");
+	background: url("ikinoktaparantez.png");
 }
 .icon.icon-laugh {
-	background-image: url("ikinoktad.bmp");
+	background: url("ikinoktad.png");
 }
 .icon.icon-sad{
-	background-image: url("sadsad.bmp");
+	background: url("sadsad.png");
 }
