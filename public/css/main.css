@@ -164,7 +164,7 @@ body{
 .msg .msgSender{
      min-height: 25px;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
     display: table-cell;
     width:180px;
     background-color: #8aa2c1;
@@ -176,7 +176,7 @@ body{
 {
     min-height: 25px;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
     display: table-cell;
     width:180px;
 
