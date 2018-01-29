@@ -46,17 +46,18 @@
     
 }
 body{
-    text-align: center;
+	font-family: 'Pontano Sans', sans-serif;
     font-size:larger;
+    background: url("/img/wall.jpg");
+    background-repeat: repeat;
 }
 #error-container{
     height:50px;
     display: block;
-    
 }
 #dvLogin{
     width: 300px;
-    background-color: #b3ffff;
+    background-color: #cbe896;
     display: block;
     text-align: center;
     margin: auto auto;
@@ -79,7 +80,7 @@ body{
 #dvLogin a:visited
 {
     color:white;
-    background-color:chocolate;
+    background-color:#54457f;
     display: block;
     border: 1px solid #ccc;
     padding: 5px 9px;
@@ -87,11 +88,13 @@ body{
     margin: 5px;
     margin-bottom: 25px;
     text-decoration: none;
-    text-decoration-color: white;
+}
+#loginButton{
+	font-size:medium;
 }
 
 .button{
-    background-color: #00b300;
+    background-color: #336699;
     border: 1px solid #ccffcc;
     padding: 9px 9px;
     border-radius: 16px 16px 16px 16px;
@@ -99,7 +102,7 @@ body{
     color: whitesmoke;
 }
 .sendButton{
-    background-color: #00b300;
+    background-color: #336699;
     color: whitesmoke;
     width:100px;
     height: 40px;
@@ -129,6 +132,13 @@ body{
     margin:auto;
     left: 0;
     right: 0;
+    background-color: #e8f7d4;
+    padding: 50px;
+    padding-bottom: 0px;
+    
+    border: 1px solid #ccc;
+    padding: 2px 9px;
+    border-radius: 16px 16px 16px 16px;
 }
 .msg{
     display: block; 
@@ -157,7 +167,7 @@ body{
     text-align: right;
     display: table-cell;
     width:180px;
-    background-color: bisque;
+    background-color: #8aa2c1;
     border: 1px solid #ccc;
     padding: 2px 9px;
     border-radius: 16px 0px 0px 16px;
@@ -170,7 +180,7 @@ body{
     display: table-cell;
     width:180px;
 
-    background-color: aquamarine;
+    background-color: #a2df53;
     border: 1px solid #ccc;
     padding: 2px 9px;
     border-radius: 0px 16px 16px 0px;
@@ -180,7 +190,7 @@ body{
     font-style: italic;
     width: 780px;
     display: table-cell;
-    background-color: wheat;
+    background-color: #bccadc;
     border: 1px solid #ccc;
     padding: 2px 9px;
     border-radius: 0px 16px 16px 0px;
@@ -198,7 +208,7 @@ body{
     width: 780px;
     display: table-cell;
     width: 780px;
-    background-color:greenyellow;
+    background-color:#aee368;
     border: 1px solid #ccc;
     padding: 2px 9px;
     border-radius:16px 0px 0px 16px;
@@ -207,7 +217,7 @@ body{
     font-weight: bold;
     text-align: center;
     display: block;
-    background-color:#85ebef;
+    background-color:#a89cc9;
     border: 1px solid #ccc;
     padding: 2px 9px;
     border-radius: 16px 16px 16px 16px;
