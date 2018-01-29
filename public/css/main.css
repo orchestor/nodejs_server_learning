@@ -34,6 +34,7 @@
     .msg .msgMe{
         width: 100px !important;
     }
+    
 }
 @media screen and (max-width:750px){
     .container {
@@ -143,6 +144,15 @@ body{
 .msg{
     display: block; 
 }
+.msg .msgSender ,
+    .msg .msgMe {
+        height: 50px;
+    }
+.msg .msgSender .name,
+    .msg .msgMe .name{
+        display: inline-block;
+        padding: 5px;
+    }
 #someOneIswriting{
     text-align: center;
 }

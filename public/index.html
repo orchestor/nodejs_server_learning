@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/img/emotes/emoticons.css">
+    <link rel="stylesheet" type="text/css" href="/img/avatars/aVatars.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="script/push.min.js"></script>
@@ -44,18 +45,17 @@
             document.getElementById('error-container').innerHTML = data;
         });
         socket.on('mention', function (data) {
-            Push.create(data.user + ' mentoned you in a message', {
+            Push.create(data.user + ' mentioned you in a message', {
                 body: '"' + data.message + '"',
                 icon: '/img/emotes/ikinoktad.png',
                 link: '/#',
-                timeout: 4000,
+                timeout: 15000,
                 onClick: function () {
                     window.focus();
                     this.close();
                 },
                 vibrate: [200, 100, 200, 100, 200, 100, 200]
             });
-            //alert("SOMEONE MENTIONED YOU! " + data);
         });
         socket.on('userSet', function (data) {
             user = data.username;
@@ -64,7 +64,6 @@
             $chat.show();
         });
         socket.on('userConnected', function (data) {
-            //document.getElementById('message-container').innerHTML = '<div><b>User Connected : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
             if (data === user) {
                 addUpdateMessage("You are now connected. Say HI!");
             } else {
@@ -75,11 +74,8 @@
         socket.on('userDisconnect', function (data) {
             var msg = "User disconnected : " + data;
             addUpdateMessage(msg);
-
-            //document.getElementById('message-container').innerHTML = '<div><b>User Left : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
         });
         socket.on('usersOnWriting', function (_u) {
-            //if (user !== _u)
             updateStrangersWriting(_u);
         })
         function sendWritingInfo() {
@@ -106,11 +102,8 @@
                     addMyMessage(data);
                 } else
                     addStrangerMessage(data);
-
                 mergeSameUsers();
-
             }
-
         });
         function mergeSameUsers() {
             var msgs = $chatBox.children();
@@ -146,7 +139,18 @@
             var userMsgSpan = document.createElement("div");
             usernameSpan.classList.add("msgMe");
             userMsgSpan.classList.add("msgMyText");
-            usernameSpan.innerText = data.user;
+            //usernameSpan.innerText = data.user;
+            //AVATAR
+            var divNameText = document.createElement('div');
+            var divAvatar = document.createElement('div');
+            divNameText.innerText = data.user;
+            divNameText.classList.add('name');
+            usernameSpan.appendChild(divNameText);
+            ///Randomize Avatar implementation
+            divAvatar.classList.add("avatar");
+            divAvatar.classList.add('blueVatar');
+            usernameSpan.appendChild(divAvatar);
+            ////
             userMsgSpan.innerHTML = emojifyText(data.message);
             div.appendChild(userMsgSpan);
             div.appendChild(usernameSpan);
