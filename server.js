@@ -7,34 +7,39 @@ app.use(express.static(path.join(__dirname, "public")));
 
 users = [];
 writingUsers = [];
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   console.log("A user connected from " + socket.handshake.address);
-  socket.on("setUsername", function(u) {
+  socket.on("setUsername", function (u) {
     if (checkAdress(socket.handshake.address)) {
       socket.emit(
         "serverMessage",
         "you already have a connection and a username! : " +
-          getUserNameFromIP(socket.handshake.address)
+        getUserNameFromIP(socket.handshake.address)
       );
-    } else if (!checkUserName(u)) {
-      socket.emit(
-        "serverMessage",
-        u + " username is taken! Try some other username."
-      );
-    } else {
-      console.log(
-        "new user name '" + u + "' from '" + socket.handshake.address + "'"
-      );
-      users.push({
-        socket: socket,
-        address: socket.handshake.address,
-        name: u
-      });
-      io.sockets.emit("userConnected", u);
-      socket.emit("userSet", { username: u });
+    } else if (/\S/.test(u)) {
+      if (!checkUserName(u)) {
+        socket.emit(
+          "serverMessage",
+          u + " username is taken! Try some other username."
+        );
+      } else {
+        console.log(
+          "new user name '" + u + "' from '" + socket.handshake.address + "'"
+        );
+        users.push({
+          socket: socket,
+          address: socket.handshake.address,
+          name: u
+        });
+        io.sockets.emit("userConnected", u);
+        socket.emit("userSet", { username: u });
+      }
+    }else
+    {
+      socket.emit("serverMessage","Your username can't be empty or whitespace");
     }
   });
-  socket.on("msg", function(data) {
+  socket.on("msg", function (data) {
     //Send message to everyone
     if (
       checkAdress(socket.handshake.address) &&
@@ -47,13 +52,13 @@ io.on("connection", function(socket) {
       socket.emit("warning", "you are not connected");
     }
   });
-  socket.on("disconnect", function(data) {
+  socket.on("disconnect", function (data) {
     //console.log(users);
     if (
       checkAdress(socket.handshake.address) &&
       getUserSocketFromIP(socket.handshake.address) === socket
     ) {
-        sendWriterDone(getUserNameFromIP(socket.handshake.address));
+      sendWriterDone(getUserNameFromIP(socket.handshake.address));
       console.log("'" + getUserNameFromIP(socket.handshake.address) + "' has left");
       io.sockets.emit(
         "userDisconnect",
@@ -68,7 +73,7 @@ io.on("connection", function(socket) {
       //console.log(users);
     } else console.log(socket.handshake.address + " has left");
   });
-  socket.on("Writing", function(user) {
+  socket.on("Writing", function (user) {
     if (!checkUserName(user)) {
       return;
     }
@@ -78,23 +83,21 @@ io.on("connection", function(socket) {
       io.sockets.emit("usersOnWriting", writingUsers);
     }
   });
-  socket.on("DoneWriting", function(user){sendWriterDone(user)});
+  socket.on("DoneWriting", function (user) { sendWriterDone(user) });
 
-function sendWriterDone(user)
-{
+  function sendWriterDone(user) {
     var checkIfUserisAlreadyWriting = writingUsers.filter(u => u.name === user);
     if (checkIfUserisAlreadyWriting.length === 1) {
-        removeUserFromWriterList(user);
+      removeUserFromWriterList(user);
       io.sockets.emit("usersOnWriting", writingUsers);
     }
-}
-function removeUserFromWriterList(username)
-{
+  }
+  function removeUserFromWriterList(username) {
     writingUsers = writingUsers.filter(u => u.name != username);
-}
+  }
 });
 
-http.listen(9696, function() {
+http.listen(9696, function () {
   console.log(
     "localhost:" + "9696" + " -> Server is now listening at designated adress"
   );
@@ -151,4 +154,5 @@ function getUserFromIP(address) {
         return item;
       }
     });
-  }}
+  }
+}
