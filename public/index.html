@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello world</title>
     <link href="https://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/img/emotes/emoticons.css">
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="script/push.min.js"></script>
 
     <script>
         String.prototype.replaceAll = function (search, replacement) {
@@ -41,6 +42,20 @@
         var user;
         socket.on('serverMessage', function (data) {
             document.getElementById('error-container').innerHTML = data;
+        });
+        socket.on('mention', function (data) {
+            Push.create(data.user + ' mentoned you in a message', {
+                body: '"' + data.message + '"',
+                icon: '/img/emotes/ikinoktad.png',
+                link: '/#',
+                timeout: 4000,
+                onClick: function () {
+                    window.focus();
+                    this.close();
+                },
+                vibrate: [200, 100, 200, 100, 200, 100, 200]
+            });
+            //alert("SOMEONE MENTIONED YOU! " + data);
         });
         socket.on('userSet', function (data) {
             user = data.username;
@@ -160,9 +175,6 @@
             $chatBox.append(div);
         }
         function updateStrangersWriting(writingUserList) {
-            //TODO : FİX THİS SHİT
-            //Doesn't add second user info
-            console.log(writingUserList);
             $someOneIsWriting.empty();
             var counter = 0;
             for (var i = 0; i < writingUserList.length; i++) {

@@ -17,36 +17,47 @@ io.on("connection", function (socket) {
         getUserNameFromIP(socket.handshake.address)
       );
     } else if (/\S/.test(u)) {
-      if (!checkUserName(u)) {
-        socket.emit(
-          "serverMessage",
-          u + " username is taken! Try some other username."
-        );
+      if (checkUserName(u)) {
+        socket.emit("serverMessage", u + " username is taken! Try some other username.");
       } else {
-        console.log(
-          "new user name '" + u + "' from '" + socket.handshake.address + "'"
-        );
+        console.log("new user name '" + u + "' from '" + socket.handshake.address + "'");
+
         users.push({
           socket: socket,
           address: socket.handshake.address,
           name: u
         });
+
         io.sockets.emit("userConnected", u);
         socket.emit("userSet", { username: u });
       }
-    }else
-    {
-      socket.emit("serverMessage","Your username can't be empty or whitespace");
+    } else {
+      socket.emit("serverMessage", "Your username can't be empty or whitespace");
     }
   });
   socket.on("msg", function (data) {
     //Send message to everyone
-    if (
-      checkAdress(socket.handshake.address) &&
-      checkUserName(socket.handshake.address) &&
-      getUserSocketFromIP(socket.handshake.address) === socket
-    ) {
+    // console.log(checkAdress(socket.handshake.address));
+    // console.log(data);
+    // console.log(checkUserName(data.user));
+    // console.log(getUserSocketFromIP(socket.handshake.address) === socket);
+    if (checkAdress(socket.handshake.address) && checkUserName(data.user) && getUserSocketFromIP(socket.handshake.address) === socket) {
       data.message = data.message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      if (~(data.message.indexOf('@'))) {
+        var words = data.message.split(/\s+/);
+        for (var i = 0; i < words.length; i++) {
+          if (words[i].indexOf('@') === 0) {
+            var s = words[i].substr(1);
+            if (checkUserName(s) /* && s !== data.user*/) {//fix : check username if it is senders name
+              var mentionee = getUserFromUserName(s);
+              //console.log(mentionee[0]);
+              if (mentionee.name === s)
+                io.sockets.connected[mentionee.socket.id].emit('mention', data);
+              //user[0].socket.emit('mention', data);
+            }
+          }
+        }
+      }
       io.sockets.emit("newmsg", data);
     } else {
       socket.emit("warning", "you are not connected");
@@ -99,7 +110,7 @@ io.on("connection", function (socket) {
 
 http.listen(9696, function () {
   console.log(
-    "localhost:" + "9696" + " -> Server is now listening at designated adress"
+    "localhost:" + "9696" + " -> Server is active"
   );
 });
 function checkAdress(userAdress) {
@@ -110,16 +121,13 @@ function checkAdress(userAdress) {
     }
   });
   return result;
-  //return false; // DEBUG MODE
 }
 function getIPFromUserName(userName) {
-  var result = false;
-  users.map(item => {
+  users.map((item) => {
     if (item.name === userName) {
-      result = item.name;
+      return item.address;
     }
   });
-  return result;
 }
 function getUserSocketFromIP(userAdress) {
   var result = false;
@@ -140,16 +148,30 @@ function getUserNameFromIP(userAdress) {
   return result;
 }
 function checkUserName(name) {
-  var x = users.map(item => {
+  var result = false;
+  users.map(item => {
     if (item.name === name) {
-      return true;
+      result = true;
     }
   });
-  return x;
+  return result;
+}
+function getUserFromUserName(name) {
+  var foundOne_BOOL = false;
+  var result;
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].name === name) {
+      if (!foundOne_BOOL) {
+        foundOne_BOOL = true;
+        result = users[i];
+      } else throw Error;
+    }
+  }
+  return result;
 }
 function getUserFromIP(address) {
   if (checkAdress(address)) {
-    return users.map(item => {
+    return users.map((item) => {
       if (item.address === address) {
         return item;
       }
