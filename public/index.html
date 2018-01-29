@@ -1,200 +1,198 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
     <title>Hello world</title>
-    <meta name="viewport"  content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/img/emotes/emoticons.css">
 
-        <link href="https://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/img/emotes/emoticons.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
-        <script>
-            String.prototype.replaceAll = function (search, replacement) {
-                var target = this;
-                return target.split(search).join(replacement);
-            };
-            var $chat;
-            var $chatBox;
-            var $messageBox;
-            var $someOneIsWriting;
-            $(document).ready(function () {
-                $chat = $('#dvChat');
-                $chatBox = $('#message-container');
-                $someOneIsWriting = $('#someOneIstexting');
-                $messageBox = $('#message');
-                $messageBox.focus();
-                $messageBox.keyup(function (e) {
-                    if ($messageBox.val().length > 0) {
-                        if (e.key === "Enter") {
-                            sendMessage();
-                        } else sendWritingInfo();
-                    } else sendDoneWritingInfo();
-                });
-                $chat.hide();
+    <script>
+        String.prototype.replaceAll = function (search, replacement) {
+            var target = this;
+            return target.split(search).join(replacement);
+        };
+        var $chat;
+        var $chatBox;
+        var $messageBox;
+        var $someOneIsWriting;
+        $(document).ready(function () {
+            $chat = $('#dvChat');
+            $chatBox = $('#message-container');
+            $someOneIsWriting = $('#someOneIstexting');
+            $messageBox = $('#message');
+            $messageBox.focus();
+            $messageBox.keyup(function (e) {
+                if ($messageBox.val().length > 0) {
+                    if (e.key === "Enter") {
+                        sendMessage();
+                    } else sendWritingInfo();
+                } else sendDoneWritingInfo();
             });
-            var socket = io();
-            function setUsername() {
-                socket.emit('setUsername', document.getElementById('name').value);
-            };
-            var user;
-            socket.on('serverMessage', function (data) {
-                document.getElementById('error-container').innerHTML = data;
-            });
-            socket.on('userSet', function (data) {
-                user = data.username;
-                $("#dvLogin").hide();
-                $("#dvLogin").innerHTML = "";
-                $chat.show();
-            });
-            socket.on('userConnected', function (data) {
-                //document.getElementById('message-container').innerHTML = '<div><b>User Connected : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
-                if (data === user) {
-                    addUpdateMessage("You are now connected. Say HI!");
-                } else {
-                    var msg = "User connected : " + data;
-                    addUpdateMessage(msg);
-                }
-            });
-            socket.on('userDisconnect', function (data) {
-                var msg = "User disconnected : " + data;
+            $chat.hide();
+        });
+        var socket = io();
+        function setUsername() {
+            socket.emit('setUsername', document.getElementById('name').value);
+        };
+        var user;
+        socket.on('serverMessage', function (data) {
+            document.getElementById('error-container').innerHTML = data;
+        });
+        socket.on('userSet', function (data) {
+            user = data.username;
+            $("#dvLogin").hide();
+            $("#dvLogin").innerHTML = "";
+            $chat.show();
+        });
+        socket.on('userConnected', function (data) {
+            //document.getElementById('message-container').innerHTML = '<div><b>User Connected : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
+            if (data === user) {
+                addUpdateMessage("You are now connected. Say HI!");
+            } else {
+                var msg = "User connected : " + data;
                 addUpdateMessage(msg);
-
-                //document.getElementById('message-container').innerHTML = '<div><b>User Left : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
-            });
-            socket.on('usersOnWriting', function (_u) {
-                //if (user !== _u)
-                updateStrangersWriting(_u);
-            })
-            function sendWritingInfo() {
-                socket.emit('Writing', user);
             }
-            function sendDoneWritingInfo() {
-                socket.emit('DoneWriting', user);
+        });
+        socket.on('userDisconnect', function (data) {
+            var msg = "User disconnected : " + data;
+            addUpdateMessage(msg);
+
+            //document.getElementById('message-container').innerHTML = '<div><b>User Left : ' + data + '</b></div>' + document.getElementById('message-container').innerHTML;
+        });
+        socket.on('usersOnWriting', function (_u) {
+            //if (user !== _u)
+            updateStrangersWriting(_u);
+        })
+        function sendWritingInfo() {
+            socket.emit('Writing', user);
+        }
+        function sendDoneWritingInfo() {
+            socket.emit('DoneWriting', user);
+        }
+        function sendMessage() {
+            var msg = document.getElementById('message').value;
+            if (msg) {
+                sendDoneWritingInfo();
+                socket.emit('msg', { message: msg, user: user });
             }
-            function sendMessage() {
-                var msg = document.getElementById('message').value;
-                if (msg) {
-                    sendDoneWritingInfo();
-                    socket.emit('msg', { message: msg, user: user });
-                }
-                $messageBox.val("");
-                $messageBox.focus();
+            $messageBox.val("");
+            $messageBox.focus();
+        }
+        socket.on('warning', function (data) {
+            addUpdateMessage(data);
+        });
+        socket.on('newmsg', function (data) {
+            if (user) {
+                if (user == data.user) {
+                    addMyMessage(data);
+                } else
+                    addStrangerMessage(data);
+
+                mergeSameUsers();
+
             }
-            socket.on('warning', function (data) {
-                addUpdateMessage(data);
-            });
-            socket.on('newmsg', function (data) {
-                if (user) {
-                    if (user == data.user) {
-                        addMyMessage(data);
-                    } else
-                        addStrangerMessage(data);
 
-                    mergeSameUsers();
+        });
+        function mergeSameUsers() {
+            var msgs = $chatBox.children();
+            for (var i = 0; i < msgs.length; i++) {
+                var upperEl = msgs[i];
+                if (upperEl.lastChild.classList.contains("msgMe")) {
+                    var downEl = msgs[i + 1];
+                    if (!downEl) return;
+                    if (downEl.lastChild.classList.contains("msgMe")) {
+                        if (downEl.lastChild.innerText === user) {
+                            upperEl.lastChild.classList.add("mergeDown");
 
-                }
-
-            });
-            function mergeSameUsers() {
-                var msgs = $chatBox.children();
-                for (var i = 0; i < msgs.length; i++) {
-                    var upperEl = msgs[i];
-                    if (upperEl.lastChild.classList.contains("msgMe")) {
-                        var downEl = msgs[i + 1];
-                        if (!downEl) return;
-                        if (downEl.lastChild.classList.contains("msgMe")) {
-                            if (downEl.lastChild.innerText === user) {
-                                upperEl.lastChild.classList.add("mergeDown");
-
-                                downEl.lastChild.classList.add("mergeUp");
-                                continue;
-                            }
+                            downEl.lastChild.classList.add("mergeUp");
+                            continue;
                         }
-                    } else if (upperEl.firstChild.classList.contains("msgSender")) {
-                        var downEl = msgs[i + 1];
-                        if (!downEl) return;
-                        if (downEl.firstChild.classList.contains("msgSender")) {
-                            if (downEl.firstChild.innerText === upperEl.firstChild.innerText) {
-                                upperEl.firstChild.classList.add("mergeDown");
-                                downEl.firstChild.classList.add("mergeUp");
-                            }
+                    }
+                } else if (upperEl.firstChild.classList.contains("msgSender")) {
+                    var downEl = msgs[i + 1];
+                    if (!downEl) return;
+                    if (downEl.firstChild.classList.contains("msgSender")) {
+                        if (downEl.firstChild.innerText === upperEl.firstChild.innerText) {
+                            upperEl.firstChild.classList.add("mergeDown");
+                            downEl.firstChild.classList.add("mergeUp");
                         }
                     }
                 }
             }
-            function addMyMessage(data) {
-                var div = document.createElement("div");
-                div.classList.add("msg");
-                var usernameSpan = document.createElement("div");
-                var userMsgSpan = document.createElement("div");
-                usernameSpan.classList.add("msgMe");
-                userMsgSpan.classList.add("msgMyText");
-                usernameSpan.innerText = data.user;
-                userMsgSpan.innerHTML = emojifyText(data.message);
-                div.appendChild(userMsgSpan);
-                div.appendChild(usernameSpan);
-                $chatBox.append(div);
-            }
-            function addUpdateMessage(data) {
-                var div = document.createElement("div");
-                div.classList.add("msg");
-                var warningBox = document.createElement("div");
-                warningBox.classList.add("infoText");
-                warningBox.innerText = data;
-                div.appendChild(warningBox);
-                $chatBox.append(div);
-            }
-            function addStrangerMessage(data) {
-                var div = document.createElement("div");
-                div.classList.add("msg");
-                var usernameSpan = document.createElement("div");
-                var userMsgSpan = document.createElement("div");
-                usernameSpan.classList.add("msgSender");
-                userMsgSpan.classList.add("msgText");
-                usernameSpan.innerText = data.user;
-                userMsgSpan.innerHTML = emojifyText(data.message);
-                div.appendChild(usernameSpan);
-                div.appendChild(userMsgSpan);
-                $chatBox.append(div);
-            }
-            function updateStrangersWriting(writingUserList) {
-                //TODO : FİX THİS SHİT
-                //Doesn't add second user info
-                console.log(writingUserList);
-                $someOneIsWriting.empty();
-                var counter = 0;
-                for (var i = 0; i < writingUserList.length; i++) {
-                    var div = document.createElement('div')
-                    {
-                        if (writingUserList[i].name === user) continue;
-                        div.id = writingUserList[i].name;
-                        div.innerText = writingUserList[i].name + (counter > 0 ? i < writingUserList.length + 1 ? ", " : " " : " ");
-                        div.classList.add("strangerWriting");
-                        if (counter === 0)
-                        { div.classList.add("leftEnd"); }
-                        $someOneIsWriting.append(div);
-                        counter++;
-                    }
+        }
+        function addMyMessage(data) {
+            var div = document.createElement("div");
+            div.classList.add("msg");
+            var usernameSpan = document.createElement("div");
+            var userMsgSpan = document.createElement("div");
+            usernameSpan.classList.add("msgMe");
+            userMsgSpan.classList.add("msgMyText");
+            usernameSpan.innerText = data.user;
+            userMsgSpan.innerHTML = emojifyText(data.message);
+            div.appendChild(userMsgSpan);
+            div.appendChild(usernameSpan);
+            $chatBox.append(div);
+        }
+        function addUpdateMessage(data) {
+            var div = document.createElement("div");
+            div.classList.add("msg");
+            var warningBox = document.createElement("div");
+            warningBox.classList.add("infoText");
+            warningBox.innerText = data;
+            div.appendChild(warningBox);
+            $chatBox.append(div);
+        }
+        function addStrangerMessage(data) {
+            var div = document.createElement("div");
+            div.classList.add("msg");
+            var usernameSpan = document.createElement("div");
+            var userMsgSpan = document.createElement("div");
+            usernameSpan.classList.add("msgSender");
+            userMsgSpan.classList.add("msgText");
+            usernameSpan.innerText = data.user;
+            userMsgSpan.innerHTML = emojifyText(data.message);
+            div.appendChild(usernameSpan);
+            div.appendChild(userMsgSpan);
+            $chatBox.append(div);
+        }
+        function updateStrangersWriting(writingUserList) {
+            //TODO : FİX THİS SHİT
+            //Doesn't add second user info
+            console.log(writingUserList);
+            $someOneIsWriting.empty();
+            var counter = 0;
+            for (var i = 0; i < writingUserList.length; i++) {
+                var div = document.createElement('div')
+                {
+                    if (writingUserList[i].name === user) continue;
+                    div.id = writingUserList[i].name;
+                    div.innerText = writingUserList[i].name + (counter > 0 ? i < writingUserList.length + 1 ? ", " : " " : " ");
+                    div.classList.add("strangerWriting");
+                    if (counter === 0)
+                    { div.classList.add("leftEnd"); }
+                    $someOneIsWriting.append(div);
+                    counter++;
                 }
-                if ($someOneIsWriting.children().length === 0) return;
-                var div = document.createElement('div');
-                div.innerText = " is writing...";
-                div.classList.add("strangerWriting");
-                div.classList.add("rightEnd");
-                $someOneIsWriting.append(div);
             }
-            function emojifyText(string) {
-                var result = "<div> " + string + " </div>";
-                result = result.replaceAll(':)', "</div><div class='icon icon-smile'></div><div>");
-                result = result.replaceAll(':D', "</div><div class='icon icon-laugh'></div><div>");
-                result = result.replaceAll(':(', "</div><div class='icon icon-sad'></div><div>");
-                return result;
-            }
-        </script>
+            if ($someOneIsWriting.children().length === 0) return;
+            var div = document.createElement('div');
+            div.innerText = " is writing...";
+            div.classList.add("strangerWriting");
+            div.classList.add("rightEnd");
+            $someOneIsWriting.append(div);
+        }
+        function emojifyText(string) {
+            var result = "<div> " + string + " </div>";
+            result = result.replaceAll(':)', "</div><div class='icon icon-smile'></div><div>");
+            result = result.replaceAll(':D', "</div><div class='icon icon-laugh'></div><div>");
+            result = result.replaceAll(':(', "</div><div class='icon icon-sad'></div><div>");
+            return result;
+        }
+    </script>
 </head>
 
 <body>
@@ -211,4 +209,5 @@
         <div id="someOneIstexting"></div>
         <input type="text" id="message"><button class="sendButton" type="button" name="button" onclick="sendMessage()">Send</button>
 </body>
+
 </html>
