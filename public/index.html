@@ -6,12 +6,12 @@
     <title>Hello world</title>
     <link href="https://fonts.googleapis.com/css?family=Pontano+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/img/emotes/emoticons.css">
-    <link rel="stylesheet" type="text/css" href="/img/avatars/aVatars.css">
+    <link rel="stylesheet" type="text/css" href="/media/emotes/emoticons.css">
+    <link rel="stylesheet" type="text/css" href="/media/avatars/aVatars.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="script/push.min.js"></script>
-
+    <script src="js/push.min.js"></script>
+    <script src="js/MessageController.js"></script>
     <script>
         String.prototype.replaceAll = function (search, replacement) {
             var target = this;
@@ -25,6 +25,7 @@
             $chat = $('#dvChat');
             $chatBox = $('#message-container');
             $someOneIsWriting = $('#someOneIstexting');
+            
             $messageBox = $('#message');
             $messageBox.focus();
             $messageBox.keyup(function (e) {
@@ -155,12 +156,16 @@
                 div.appendChild(usernameSpan);
             }
             else {
+                
+                TemplateManager.Template("sada");
+                /*
                 usernameSpan.appendChild(divAvatar);
                 usernameSpan.appendChild(divNameText);
                 usernameSpan.classList.add("msgSender");
                 userMsgSpan.classList.add("msgText");
                 div.appendChild(usernameSpan);
                 div.appendChild(userMsgSpan);
+                */
             }
             $chatBox.append(div);
         }
