@@ -98,10 +98,7 @@
         });
         socket.on('newmsg', function (data) {
             if (user) {
-                if (user == data.user) {
-                    addMyMessage(data);
-                } else
-                    addStrangerMessage(data);
+                addMessage(data, user === data.user);
                 mergeSameUsers();
             }
         });
@@ -132,28 +129,39 @@
                 }
             }
         }
-        function addMyMessage(data) {
+        function addMessage(data, boolIsViewer) {
             var div = document.createElement("div");
             div.classList.add("msg");
+
             var usernameSpan = document.createElement("div");
             var userMsgSpan = document.createElement("div");
-            usernameSpan.classList.add("msgMe");
-            userMsgSpan.classList.add("msgMyText");
-            //usernameSpan.innerText = data.user;
-            //AVATAR
             var divNameText = document.createElement('div');
             var divAvatar = document.createElement('div');
+            //usernameSpan.innerText = data.user;
+            //AVATAR
             divNameText.innerText = data.user;
             divNameText.classList.add('name');
-            usernameSpan.appendChild(divNameText);
             ///Randomize Avatar implementation
             divAvatar.classList.add("avatar");
             divAvatar.classList.add('blueVatar');
-            usernameSpan.appendChild(divAvatar);
             ////
             userMsgSpan.innerHTML = emojifyText(data.message);
-            div.appendChild(userMsgSpan);
-            div.appendChild(usernameSpan);
+            if (boolIsViewer) {
+                usernameSpan.appendChild(divNameText);
+                usernameSpan.appendChild(divAvatar);
+                usernameSpan.classList.add("msgMe");
+                userMsgSpan.classList.add("msgMyText");
+                div.appendChild(userMsgSpan);
+                div.appendChild(usernameSpan);
+            }
+            else {
+                usernameSpan.appendChild(divAvatar);
+                usernameSpan.appendChild(divNameText);
+                usernameSpan.classList.add("msgSender");
+                userMsgSpan.classList.add("msgText");
+                div.appendChild(usernameSpan);
+                div.appendChild(userMsgSpan);
+            }
             $chatBox.append(div);
         }
         function addUpdateMessage(data) {
@@ -188,8 +196,7 @@
                     div.id = writingUserList[i].name;
                     div.innerText = writingUserList[i].name + (counter > 0 ? i < writingUserList.length + 1 ? ", " : " " : " ");
                     div.classList.add("strangerWriting");
-                    if (counter === 0)
-                    { div.classList.add("leftEnd"); }
+                    if (counter === 0) { div.classList.add("leftEnd"); }
                     $someOneIsWriting.append(div);
                     counter++;
                 }
@@ -216,14 +223,17 @@
         <div id="error-container"></div>
         <input id="name" type="text" name="name" value="" placeholder="Enter your name!">
         <button id="loginButton" type="button" name="button" class="button" onclick="setUsername()">
-         Let me chat!
-      </button>
-        <div><a href="https://github.com/csLupius/nodejs_server_learning">Help to improve this project!</a></div>
+            Let me chat!
+        </button>
+        <div>
+            <a href="https://github.com/csLupius/nodejs_server_learning" target="_blank">Help to improve this project!</a>
+        </div>
     </div>
     <div id="dvChat" class="container">
         <div id="message-container"></div>
         <div id="someOneIstexting"></div>
-        <input type="text" id="message"><button class="sendButton" type="button" name="button" onclick="sendMessage()">Send</button>
+        <input type="text" id="message">
+        <button class="sendButton" type="button" name="button" onclick="sendMessage()">Send</button>
 </body>
 
 </html>

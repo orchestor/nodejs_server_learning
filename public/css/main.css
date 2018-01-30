@@ -93,7 +93,9 @@ body{
 #loginButton{
 	font-size:medium;
 }
-
+#message-container{
+    
+}
 .button{
     background-color: #336699;
     border: 1px solid #ccffcc;
