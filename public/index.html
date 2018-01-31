@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello world</title>
@@ -9,14 +8,15 @@
     <link rel="stylesheet" type="text/css" href="/media/emotes/emoticons.css">
     <link rel="stylesheet" type="text/css" href="/media/avatars/aVatars.css">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/TemplateManager.js"></script>
+    <script src="js/Component.js"></script>
+    <script src="js/Tools.js"></script>
+    <script src="js/MessageController/MessageLog.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="js/push.min.js"></script>
-    <script src="js/MessageController.js"></script>
+    
     <script>
-        String.prototype.replaceAll = function (search, replacement) {
-            var target = this;
-            return target.split(search).join(replacement);
-        };
+        
         var $chat;
         var $chatBox;
         var $messageBox;
@@ -63,6 +63,10 @@
             $("#dvLogin").hide();
             $("#dvLogin").innerHTML = "";
             $chat.show();
+
+            MessageLog.setParent($chatBox);
+            UserMessageLog.Render();
+            UserMessageLog.setData({user:"ADMIN", message:"Say hi and introduce yourself!"});
         });
         socket.on('userConnected', function (data) {
             if (data === user) {
@@ -131,43 +135,13 @@
             }
         }
         function addMessage(data, boolIsViewer) {
-            var div = document.createElement("div");
-            div.classList.add("msg");
-
-            var usernameSpan = document.createElement("div");
-            var userMsgSpan = document.createElement("div");
-            var divNameText = document.createElement('div');
-            var divAvatar = document.createElement('div');
-            //usernameSpan.innerText = data.user;
-            //AVATAR
-            divNameText.innerText = data.user;
-            divNameText.classList.add('name');
-            ///Randomize Avatar implementation
-            divAvatar.classList.add("avatar");
-            divAvatar.classList.add('blueVatar');
-            ////
-            userMsgSpan.innerHTML = emojifyText(data.message);
+            
             if (boolIsViewer) {
-                usernameSpan.appendChild(divNameText);
-                usernameSpan.appendChild(divAvatar);
-                usernameSpan.classList.add("msgMe");
-                userMsgSpan.classList.add("msgMyText");
-                div.appendChild(userMsgSpan);
-                div.appendChild(usernameSpan);
+                UserMessageLog.WriteMessage(data);
             }
             else {
-                
-                TemplateManager.Template("sada");
-                /*
-                usernameSpan.appendChild(divAvatar);
-                usernameSpan.appendChild(divNameText);
-                usernameSpan.classList.add("msgSender");
-                userMsgSpan.classList.add("msgText");
-                div.appendChild(usernameSpan);
-                div.appendChild(userMsgSpan);
-                */
+                StrangerMessageLog.WriteMessage(data);
             }
-            $chatBox.append(div);
         }
         function addUpdateMessage(data) {
             var div = document.createElement("div");
@@ -222,7 +196,6 @@
         }
     </script>
 </head>
-
 <body>
     <div id="dvLogin">
         <div id="error-container"></div>
