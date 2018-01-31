@@ -65,8 +65,7 @@
             $chat.show();
 
             MessageLog.setParent($chatBox);
-            UserMessageLog.Render();
-            UserMessageLog.setData({user:"ADMIN", message:"Say hi and introduce yourself!"});
+            StrangerMessageLog.WriteMessage({user:"ADMIN", message:"Say hi and introduce yourself!"});
         });
         socket.on('userConnected', function (data) {
             if (data === user) {
