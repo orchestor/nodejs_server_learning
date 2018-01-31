@@ -7,18 +7,14 @@ MessageLog.WriteMessage = function (data) {
     this.Render();
     var childNodes = this.cElement.childNodes;
     for (var i = 0; i < childNodes.length; i++) {
-        switch (childNodes[i].getAttribute("data")) {
-            case "userMessage":
-                childNodes[i].innerText = data.message;
-                break;
-            case "userInfo":
-                var gChilds = childNodes[i].childNodes;
-                for(var j = 0; j < gChilds.length; j++)
-                {
-                    if(gChilds[j].getAttribute("data") === "userName") gChilds[j].innerText= data.user;
-                    if(gChilds[j].getAttribute("data") === "userAvatar") gChilds[j].classList.add(Tools.getAvatarFromID(data.avatar));
-                }
-                break;
+        if (childNodes[i].getAttribute("data") === "userMessage") childNodes[i].innerText = data.message;
+
+        if (childNodes[i].getAttribute("data") === "userInfo"){
+            var gChilds = childNodes[i].childNodes;
+            for (var j = 0; j < gChilds.length; j++) {
+                if (gChilds[j].getAttribute("data") === "userName") gChilds[j].innerText = data.user;
+                if (gChilds[j].getAttribute("data") === "userAvatar") gChilds[j].classList.add(Tools.getAvatarFromID(data.avatar));
+            }
         }
     }
 }

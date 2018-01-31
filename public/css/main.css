@@ -49,7 +49,7 @@
 body{
 	font-family: 'Pontano Sans', sans-serif;
     font-size:larger;
-    background: url("/img/wall.jpg");
+    background: url("/media/wall.jpg");
     background-repeat: repeat;
 }
 #error-container{
