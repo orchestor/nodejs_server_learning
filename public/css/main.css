@@ -199,7 +199,6 @@ body{
 }
 .msg .msgText{
     min-height: 25px;
-    font-style: italic;
     width: 780px;
     display: table-cell;
     background-color: #bccadc;
@@ -214,7 +213,6 @@ body{
     display: inline-block;
 }
 .msg .msgMyText{
-    font-style: italic;
     min-height: 25px;
     text-align: right;
     width: 780px;
