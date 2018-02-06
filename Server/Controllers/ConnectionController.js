@@ -10,7 +10,11 @@ var UserListHelper = require('../helpers/UserListTools');
 function _connectionHandler(socket) {
     //////// HANDLERS /////////////////
     function userLoginHandler(username) {//
-        UserListController.AddUser(new User(username, socket));
+        console.log(username);
+        if (!UserListController.AddUser(new User(username, socket))) {
+            console.log('connection failed');
+            socket.emit('connectionFailed', 'Connection Failed');
+        }
     }
     function msgHandler(data) {
         ChatLog.Add(new Chat(data.sender, data.message));
@@ -28,8 +32,11 @@ function _connectionHandler(socket) {
     ////////////-------------------------///////////////////////////  
 
     ///// TEST DATA //////////////
-    console.log("New Connection @ : " + socket.handshake.address);
-    UserListController.AddUser(new User('deneme', socket));
+    //console.log("New Connection @ " + socket.handshake.address);
+    // if (!UserListController.AddUser(new User('username', socket))) {
+    //     console.log('connection failed');
+    //     socket.emit('connectionFailed', 'Connection Failed');
+    // }
     //UserListController.AddUser(new User('deneme2', socket));
 
     //ChatLog.Add(new Chat('chatter', 'Chat Chat Chat'));
@@ -37,10 +44,10 @@ function _connectionHandler(socket) {
 }
 var ConnectionController = (function () {
     UserListController.onUsersChanged(function userListChangedHandler(userlist) {
-            SocketsHelper.emitToAll('userListChanged',
-                userlist,
-                UserListHelper.getAllSockets());
-        });
+        SocketsHelper.emitToAll('userListChanged',
+            userlist,
+            UserListHelper.getAllSockets());
+    });
 
     ChatLog.onChatlogChanged(function (chatlog) {
         //console.log(chatlog)

@@ -5,7 +5,7 @@ var io = require("socket.io")(http);
 var path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 //
-var ConnectionController = require('./Controllers/ConnectionController');
+var ConnectionController = require('./Server/Controllers/ConnectionController');
 
 io.on('connection',
     function (socket) {
