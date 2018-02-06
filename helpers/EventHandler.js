@@ -2,16 +2,11 @@ var EventHandler = Object.create(Array.prototype);
 
 EventHandler.trigger = function(e){
 	var temp;
-	// function asyncTrigger(callback,e){
-	// 	//setTimeout(
-	// 		//function(){
-	// 			callback(e);
-	// 	//	}
-	// 	//);
-	// }
 	for(var i = 0; i < this.length;i++){
 		temp = this[i];
+		//console.log(this);
 		temp(e);
+		//console.log('EventHandler_'+i);
 	}   
 }
 module.exports = EventHandler;

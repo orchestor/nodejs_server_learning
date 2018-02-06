@@ -1,6 +1,6 @@
-function Users(username,socket) {
+function User(username,socket) {
     this.username = username;
     this.socket = socket;
     this.address = socket.handshake.address;
 }
-module.exports = Users;
+module.exports = User;

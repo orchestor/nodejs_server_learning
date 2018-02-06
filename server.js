@@ -15,7 +15,7 @@ io.on('connection',
 );
 
 http.listen(9696,
-    function () {
+    function writeToConsole() {
         console.clear();
         console.log('started')
     }
