@@ -27,6 +27,7 @@ function _connectionHandler(socket) {
         }
     }
     function msgHandler(data) {
+        //console.log('msgHandler ' + data.sender, data.message);
         if (!ChatLog.Add(new Chat(data.sender, data.message))) {
             socket.emit('msgSendFailed', '0X0001 Message send failed');
         } else socket.emit('msgSendSuccess');
@@ -56,16 +57,17 @@ function _connectionHandler(socket) {
 }
 var ConnectionController = (function () {
     UserListController.onUsersChanged(function userListChangedHandler(userlist) {
+
         SocketsHelper.emitToAll('userListChanged',
             userlist,
             UserListHelper.getAllSockets());
     });
 
     ChatLog.onChatlogChanged(function (chatlog) {
-        console.log(chatlog)
+        //console.log("onChatlogChanged")
         SocketsHelper.emitToAll('chatLogChanged',
-            ChatLog,
-            UserListHelper.getAllSockets);
+            chatlog,
+            UserListHelper.getAllSockets());
 
     });
 

@@ -10,8 +10,9 @@ ConnectionController.initialize = function _initialize() {
 
     }
     function _onChatLogChanged(data) {
-        console.log(data);
-        ChatLogController.ShowAllActiveMessages();
+        //console.log("_onChatLogChanged");
+        //console.log(data);
+        ChatLogController.ShowAllActiveMessages(data);
     }
 }
 ConnectionController.LoginWithUserName = function _loginwithusername(username, cb) {
@@ -29,8 +30,10 @@ ConnectionController.LoginWithUserName = function _loginwithusername(username, c
 }
 
 ConnectionController.SendMessage = function _sendMessageToAll(message, cb){
+    console.log("ConnectionController_sendMessageToAll")
     var self = this;
-    this.socket.emit('newMsg',message);
+    console.log('ConnectionController_sendMessageToAll : ' + message);
+    this.socket.emit('newMsg',{sender:ConnectionController.connectionUser, message:message});
     this.socket.on('msgSendSuccess',
     function(data){
         cb(true);

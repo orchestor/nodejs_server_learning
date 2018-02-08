@@ -14,11 +14,11 @@ ChatBoxController.Show = function _show(parent) {
         if(!boolResponse)
         {
             alert(message);
-        }else alert(message);
+        }
     }
     this.view.$button.onclick = function _onChatSend(){
-        console.log("_onchatsend");
-        console.log(self.view.$input.value)
+        //console.log("_onchatsend");
+        //console.log(self.view.$input.value)
         ConnectionController.SendMessage(self.view.$input.value, _onchatsendresponsehandler);
     };
 }
