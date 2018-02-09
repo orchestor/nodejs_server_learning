@@ -21,9 +21,10 @@ function _connectionHandler(socket) {
             socket.emit('connectionFailed', 'Connection Failed; Username is already in use.');
         } else {
             socket.emit('connectionSuccess', username);
-            //////-------- DEBUG ---------///
-            ChatLog.Add(new Chat('chatter', 'Chat Chat Chat'));
-            /////////////---------------////////////
+            // //////-------- DEBUG ---------///
+            // //TEST:
+            // ChatLog.Add(new Chat('chatter', 'Chat Chat Chat'));
+            // /////////////---------------////////////
         }
     }
     function msgHandler(data) {
@@ -44,7 +45,7 @@ function _connectionHandler(socket) {
     socket.on('disconnect', disconnectionHandler);
     ////////////-------------------------///////////////////////////  
 
-    ///// TEST DATA //////////////
+    /// //TEST: //////////////
     //console.log("New Connection @ " + socket.handshake.address);
     // if (!UserListController.AddUser(new User('username', socket))) {
     //     console.log('connection failed');

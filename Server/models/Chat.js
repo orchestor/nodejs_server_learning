@@ -1,6 +1,6 @@
-function Chat(senderName, message)
+function Chat(sender, message)
 {
-    this.senderName = senderName;
+    this.sender = sender;
     this.message = message;
 }
 

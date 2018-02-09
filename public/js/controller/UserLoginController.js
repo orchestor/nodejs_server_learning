@@ -14,7 +14,7 @@ UserLoginController.Show = function _show(parent) {
     function _loginHandler(result, data) {
         if (result) {
             self.Remove();
-            ChatBoxController.Show(document.body);
+            ChatBoxViewController.Show(document.body);
         } else
             self.view.$serverMessage.innerText = data;
     }

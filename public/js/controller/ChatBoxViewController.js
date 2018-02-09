@@ -1,7 +1,7 @@
-var ChatBoxController = {
+var ChatBoxViewController = {
     view: Object.create(ChatBoxView)
 }
-ChatBoxController.Show = function _show(parent) {
+ChatBoxViewController.Show = function _show(parent) {
     var self = this;
     this.view.initialize(parent);
     this.view.display();
@@ -22,10 +22,10 @@ ChatBoxController.Show = function _show(parent) {
         ConnectionController.SendMessage(self.view.$input.value, _onchatsendresponsehandler);
     };
 }
-ChatBoxController.Remove = function _remove() {
+ChatBoxViewController.Remove = function _remove() {
     this.view.remove();
 }
 
-//ChatLogController'ı nasıl ChatBoxController içine koyucam? 
-//ChatLogView'in parent'i ChatBoxController.view.cElement i olmalı
+//ChatLogController'ı nasıl ChatBoxViewController içine koyucam? 
+//ChatLogView'in parent'i ChatBoxViewController.view.cElement i olmalı
 //Peki bunu ChatBoxShow'unda mı yapmalıyım yoksa dışarda mı ?
