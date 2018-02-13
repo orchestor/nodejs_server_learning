@@ -1,4 +1,4 @@
-var StrangerChatLogView = Object.create(ChatView);
-StrangerChatLogView.name = 'UserChatLog';
+var UserChatLogView = Object.create(ChatView);
+UserChatLogView.name = 'UserChatLog';
 
 
