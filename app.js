@@ -13,10 +13,10 @@ io.on('connection',
         ConnectionController.Connect(socket);
     }
 );
-
-http.listen(9696,
+var port = process.env.PORT || 5000
+http.listen(port,
     function writeToConsole() {
         console.clear();
-        console.log('started')
+        console.log('started at : ' + port)
     }
 );
