@@ -1,38 +1,40 @@
+///DATA MODELS
 var User = require('../models/User');
 var ChatLog = require('../models/ChatLog');
 var Chat = require('../models/Chat');
 
+///CONTROLLERS
 var UserListController = require('./UserListController');
+
+//TOOLS
 var SocketsHelper = require('../helpers/SocketsHelper');
 var UserListHelper = require('../helpers/UserListTools');
 
+//TODO: Remove old chat logs after some time
 
 function _connectionHandler(socket) {
     //////// HANDLERS /////////////////
+    /*This section dedicated for handling signals
+    */
+
+    //TODO: check if username is safe
     function userLoginHandler(username) {//
-        //console.log(username);
-        // ///////------ DEBUG -------//////////
-        // socket.emit('connectionFailed','This is a test message.');
-        // return null;
-        // ///////------------------///////////
+        /*Try to add Username to list
+        */
         if (!UserListController.AddUser(new User(username, socket))) {
-            //console.log('connection failed');
-            
-            socket.emit('connectionFailed', 'Connection Failed; Username is already in use.');
+            socket.emit('connectionFailed', 'Connection Failed; Username is already in use. Or you already have a user logged in in this computer');
         } else {
             socket.emit('connectionSuccess', {name:username, messages:ChatLog.Log});
-            // //////-------- DEBUG ---------///
-            // //TEST:
-            // ChatLog.Add(new Chat('chatter', 'Chat Chat Chat'));
-            // /////////////---------------////////////
         }
     }
+    //TODO: check if message is safe
     function msgHandler(data) {
-        //console.log('msgHandler ' + data.sender, data.message);
+        /** Try to add chat log to log list */
         if (!ChatLog.Add(new Chat(data.sender, data.message))) {
             socket.emit('msgSendFailed', '0X0001 Message send failed');
         } else socket.emit('msgSendSuccess');
     }
+
     function disconnectionHandler() {
         var disconnetedUser = UserListHelper.getUserFromSocket(socket);
         UserListController.RemoveUser(disconnetedUser);
@@ -40,21 +42,11 @@ function _connectionHandler(socket) {
     //////////----------------------////////////////////////////
 
     /////// Signal Listening ///////////////
+    /*This Section is dedicated for listening and directing signals from client */
     socket.on('userNameSet', userLoginHandler);
     socket.on('newMsg', msgHandler);
     socket.on('disconnect', disconnectionHandler);
     ////////////-------------------------///////////////////////////  
-
-    /// //TEST: //////////////
-    //console.log("New Connection @ " + socket.handshake.address);
-    // if (!UserListController.AddUser(new User('username', socket))) {
-    //     console.log('connection failed');
-    //     socket.emit('connectionFailed', 'Connection Failed');
-    // }
-    //UserListController.AddUser(new User('deneme2', socket));
-
-    //ChatLog.Add(new Chat('chatter', 'Chat Chat Chat'));
-    //////-------------------/////////////
 }
 var ConnectionController = (function () {
     UserListController.onUsersChanged(function userListChangedHandler(userlist) {

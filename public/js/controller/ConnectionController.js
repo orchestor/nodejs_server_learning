@@ -8,7 +8,7 @@ ConnectionController.initialize = function _initialize() {
     this.socket.on('chatLogChanged', _onChatLogChanged)
     function _onUserConnected(userList) {
         //TODO:
-        //Tüm Activ user'ları göster
+        //Tüm Aktif user'ları göster
     }
     function _onChatLogChanged(data) {
         //console.log("_onChatLogChanged");
@@ -24,8 +24,6 @@ ConnectionController.LoginWithUserName = function _loginwithusername(username, c
     function _onConnectionFailed(data) {
         cb(false, data);
     }
-    //IDEA:
-    //DATA OLARAK KULLANICI ADINI VE CHATLOGLARI AL?
     function _onConnectionSuccess(data) {
         //console.log("0_onConnectionSuccess " + data);
         cb(true, data);
