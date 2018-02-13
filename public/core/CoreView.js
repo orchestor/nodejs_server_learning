@@ -2,16 +2,23 @@
 var CoreView = {}
 CoreView.name = '';
 CoreView.parent = undefined;
-
+CoreView.class = '';
+CoreView.id = '';
 CoreView.display = function _display(boolprepend = false) {
-    if(!boolprepend)
+    if (!boolprepend)
         this.parent.append(this.cElement);
-        else
+    else
         this.parent.prepend(this.cElement);
 }
 CoreView.initialize = function _init(parent) {
     this.cElement = document.createElement('div');
     this.parent = parent;
+
+    if (this.id)
+        this.cElement.id = this.id;
+    if (this.class)
+        this.cElement.classList.add(this.class);
+
     this.template = TemplateManager.load(this.name);
     this.cElement.innerHTML = this.template;
 }

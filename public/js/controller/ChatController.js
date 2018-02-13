@@ -4,9 +4,8 @@ ChatController.AddChatLog = function chatcontroller_display(parent, data) {
     
     var log;
     //todo check user
-    if (/*isUser*/ false) {
-        //TODO:
-        // log = Object.create(UserChatLogView);
+    if (ConnectionController.connectionUser === data.sender) {
+        log = Object.create(UserChatLogView);
     } else {
         log = Object.create(StrangerChatLogView);
     }

@@ -1,0 +1,9 @@
+.half-container,
+.container  {
+    display:block;
+    background-color: brown; 
+    width: 1000px;
+    margin:auto;
+    text-align: center;
+}
+.half-container{ width: 500px;}
