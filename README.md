@@ -18,24 +18,16 @@ In my opinion it is easy to read and easy to expand upon
 
 
 ### View Creation
+With Object Literal method if someone wants to create a View, can do it in 4 easy steps;
 
-For example if someone wants to create a View, can do it in 4 easy steps
 * Create Object from CoreView, this Object has everything needed
-```
-var NewView = Object.create(CoreView)
-```
+``` var NewView = Object.create(CoreView) ```
 * Giving NewView a name to link with template
-```
-var NewView.name = 'NewView'
-```
+``` var NewView.name = 'NewView' ```
   * In this version If no name is specified TemplateManager will throw error and break app
   * Templates have to be ``` .html ``` documents
   * View's name value must be same with template file name like ``` NewView.html ``` 
 * And use initialize with parent element as argument
-```
-NewView.initialize(document.body)
-```
+``` NewView.initialize(document.body) ```
 * And finally display, if true given as argument View will be added to top of parents childnodes
-```
-NewView.display()
-```
+``` NewView.display() ```
