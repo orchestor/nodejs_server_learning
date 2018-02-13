@@ -7,8 +7,6 @@ ChatInputViewController.Show = function _show(parent) {
     this.view.display();
     this.view.$button = document.getElementById('chatButton');
     this.view.$input = document.getElementById('chatInput');
-    ChatLogController.Show(this.view.cElement);
-    
     function _onchatsendresponsehandler(boolResponse, message ='')
     {
         if(!boolResponse)
