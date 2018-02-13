@@ -16,11 +16,11 @@ function _connectionHandler(socket) {
         // return null;
         // ///////------------------///////////
         if (!UserListController.AddUser(new User(username, socket))) {
-            console.log('connection failed');
+            //console.log('connection failed');
             
             socket.emit('connectionFailed', 'Connection Failed; Username is already in use.');
         } else {
-            socket.emit('connectionSuccess', username);
+            socket.emit('connectionSuccess', {name:username, messages:ChatLog.Log});
             // //////-------- DEBUG ---------///
             // //TEST:
             // ChatLog.Add(new Chat('chatter', 'Chat Chat Chat'));

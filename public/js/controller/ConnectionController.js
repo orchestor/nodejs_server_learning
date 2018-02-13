@@ -7,7 +7,8 @@ ConnectionController.initialize = function _initialize() {
     this.socket.on('userListChanged', _onUserConnected)
     this.socket.on('chatLogChanged', _onChatLogChanged)
     function _onUserConnected(userList) {
-
+        //TODO:
+        //Tüm Activ user'ları göster
     }
     function _onChatLogChanged(data) {
         //console.log("_onChatLogChanged");
@@ -23,16 +24,19 @@ ConnectionController.LoginWithUserName = function _loginwithusername(username, c
     function _onConnectionFailed(data) {
         cb(false, data);
     }
+    //IDEA:
+    //DATA OLARAK KULLANICI ADINI VE CHATLOGLARI AL?
     function _onConnectionSuccess(data) {
+        //console.log("0_onConnectionSuccess " + data);
         cb(true, data);
-        self.connectionUser = data;
+        self.connectionUser = data.name;
     }
 }
 
 ConnectionController.SendMessage = function _sendMessageToAll(message, cb){
-    console.log("ConnectionController_sendMessageToAll")
+    //console.log("ConnectionController_sendMessageToAll")
     var self = this;
-    console.log('ConnectionController_sendMessageToAll : ' + message);
+    //console.log('ConnectionController_sendMessageToAll : ' + message);
     this.socket.emit('newMsg',{sender:ConnectionController.connectionUser, message:message});
     this.socket.on('msgSendSuccess',
     function(data){

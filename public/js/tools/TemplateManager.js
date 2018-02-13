@@ -18,7 +18,7 @@ var TemplateManager = {
             return stringToReturn;
         }else
             {
-                return "Template cannot be loaded";
+                return templateName + ".html Template cannot be loaded";
             }
     }
 }

@@ -12,16 +12,21 @@ UserLoginController.Show = function _show(parent) {
     this.view.$input = document.getElementById('userLoginInput');
     this.view.$serverMessage = document.getElementById('loginServerMessage');
     function _loginHandler(result, data) {
+
         if (result) {
             self.Remove();
-            ChatBoxViewController.Show(document.body);
-        } else
+            ChatInputViewController.Show(document.body);
+           
+            ChatLogController.ShowAllActiveMessages(data.messages);
+            
+        } else{
             self.view.$serverMessage.innerText = data;
+            
+        }
     }
     this.view.$button.onclick = function (e) {
         if (self.view.$input.value && self.view.$input.value.length > 0) {
             ConnectionController.LoginWithUserName(self.view.$input.value, _loginHandler)
-
         }
     }
 };
